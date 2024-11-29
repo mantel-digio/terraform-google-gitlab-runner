@@ -98,23 +98,23 @@ echo "Installing docker machine."
 curl -L https://github.com/docker/machine/releases/download/v0.16.2/docker-machine-Linux-x86_64 -o /tmp/docker-machine
 sudo install /tmp/docker-machine /usr/local/bin/docker-machine
 
-echo "Verifying docker-machine and generating SSH keys ahead of time."
-docker-machine create --driver google \
-    --google-project ${var.gcp_project} \
-    --google-machine-type f1-micro \
-    --google-zone ${var.gcp_zone} \
-    --google-service-account ${google_service_account.ci_worker.email} \
-    --google-scopes https://www.googleapis.com/auth/cloud-platform \
-    --google-disk-type pd-ssd \
-    --google-disk-size ${var.ci_worker_disk_size} \
-    --google-machine-image ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20220419 \
-    --google-tags ${var.ci_worker_instance_tags} \
-    --google-use-internal-ip \
-    --google-network ${var.ci_runner_network} \
-     %{if var.ci_runner_subnetwork != ""}--google-subnetwork ${var.ci_runner_subnetwork}%{endif} \
-    ${var.gcp_resource_prefix}-test-machine
+# echo "Verifying docker-machine and generating SSH keys ahead of time."
+# docker-machine create --driver google \
+#     --google-project ${var.gcp_project} \
+#     --google-machine-type f1-micro \
+#     --google-zone ${var.gcp_zone} \
+#    --google-service-account ${google_service_account.ci_worker.email} \
+#     --google-scopes https://www.googleapis.com/auth/cloud-platform \
+#     --google-disk-type pd-ssd \
+#     --google-disk-size ${var.ci_worker_disk_size} \
+#     --google-machine-image ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20220419 \
+#     --google-tags ${var.ci_worker_instance_tags} \
+#     --google-use-internal-ip \
+#     --google-network ${var.ci_runner_network} \
+#      %{if var.ci_runner_subnetwork != ""}--google-subnetwork ${var.ci_runner_subnetwork}%{endif} \
+#     ${var.gcp_resource_prefix}-test-machine
 
-docker-machine rm -y ${var.gcp_resource_prefix}-test-machine
+# docker-machine rm -y ${var.gcp_resource_prefix}-test-machine
 
 echo "Setting GitLab concurrency"
 sed -i "s/concurrent = .*/concurrent = ${var.ci_concurrency}/" /etc/gitlab-runner/config.toml
@@ -125,7 +125,6 @@ sudo gitlab-runner register -n  \
     --token ${var.ci_token} \
     --executor "docker+machine" \
     --docker-image "alpine:latest"  \
-    --tag-list "${var.ci_runner_gitlab_tags}" \
     --machine-machine-driver google \
     --docker-privileged=${var.docker_privileged} \
     --machine-idle-time ${var.ci_worker_idle_time} \
