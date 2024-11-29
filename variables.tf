@@ -55,11 +55,19 @@ variable "ci_runner_disk_size" {
   default     = "20"
   description = "The size of the persistent disk in GB."
 }
+
+variable "ci_runner_image" {
+  type        = string
+  default     = "centos-cloud/centos-stream-9"
+  description = "Name of the image for the runner"
+}
+
 variable "ci_runner_gitlab_name" {
   type        = string
   default     = ""
   description = "Register the runner in GitLab using this name.  If empty the value \"gcp-$${var.gcp_project}\" will be used."
 }
+
 variable "ci_runner_gitlab_tags" {
     type        = string
     default     = ""
