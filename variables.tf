@@ -62,6 +62,12 @@ variable "ci_runner_image" {
   description = "Name of the image for the runner"
 }
 
+variable "ci_worker_image" {
+  type        = string
+  default     = "ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20241115"
+  description = "Name of the image for the worker"
+}
+
 variable "ci_runner_gitlab_name" {
   type        = string
   default     = ""

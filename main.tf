@@ -113,7 +113,7 @@ sudo gitlab-runner register -n  \
     --machine-machine-name "${var.gcp_resource_prefix}-worker-%s" \
     --machine-machine-options "google-project=${var.gcp_project}" \
     --machine-machine-options "google-machine-type=${var.ci_worker_instance_type}" \
-    --machine-machine-options "google-machine-image=ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20241115" \
+    --machine-machine-options "google-machine-image=${var.ci_worker_image}" \
     --machine-machine-options "google-zone=${var.gcp_zone}" \
     --machine-machine-options "google-service-account=${google_service_account.ci_worker.email}" \
     --machine-machine-options "google-scopes=https://www.googleapis.com/auth/cloud-platform" \
